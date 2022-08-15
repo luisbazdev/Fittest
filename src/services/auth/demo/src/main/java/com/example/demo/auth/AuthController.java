@@ -12,6 +12,7 @@ import java.util.Optional;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,12 +25,14 @@ public class AuthController {
     private final UserRepository userRepository;
     private final JwtTokenUtil jwtTokenUtil;
     private final PasswordEncoder passwordEncoder;
+    private final RabbitTemplate rabbitTemplate;
 
     @Autowired
-    public AuthController(UserRepository userRepository, JwtTokenUtil jwtTokenUtil){
+    public AuthController(UserRepository userRepository, JwtTokenUtil jwtTokenUtil, RabbitTemplate rabbitTemplate){
         this.userRepository = userRepository;
         this.jwtTokenUtil = jwtTokenUtil;
         this.passwordEncoder = new BCryptPasswordEncoder();
+        this.rabbitTemplate = rabbitTemplate;
     }
 
     @PostMapping("/login")
@@ -78,7 +81,8 @@ public class AuthController {
         }
         else{
             userBody.setPassword(passwordEncoder.encode(userBody.getPassword()));
-            userRepository.save(userBody);
+            User user = userRepository.save(userBody);
+            rabbitTemplate.convertAndSend("fittest", "signup.#asd", user.getId());
             return "User created";
         }
     }
