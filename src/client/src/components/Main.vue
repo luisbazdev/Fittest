@@ -1,8 +1,11 @@
 <script setup lang="ts">
-import Sidebar from './Sidebar.vue';
+import Navbar from './Navbar.vue';
+import Routines from './Routines.vue';
+import Explore from './Explore.vue';
 </script>
 
 <template>
-<Sidebar/>
-<RouterView></RouterView>
+<Navbar/>
+<Routines/>
+<!-- <RouterView></RouterView> -->
 </template>

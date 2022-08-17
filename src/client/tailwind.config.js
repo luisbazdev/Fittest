@@ -7,7 +7,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        'main': ['Nunito', 'sans-serif']
+        'main': ['Anek Kannada', 'sans-serif']
       }
     },
   },

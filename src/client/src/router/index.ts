@@ -43,6 +43,8 @@ const router = createRouter({
 // router.beforeEach(async(to, from) => {
 //   const userStore = useUserStore()
 
+//   console.log(userStore.isUserLoggedIn)
+
 //   await axios.post('http://localhost:8686/auth/info', {}, {
 //     withCredentials: true
 //   })
