@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 @layer components{
+    html, body{
+        @apply bg-gray-200
+    }
     .card{
         @apply rounded-lg shadow-md py-2 px-8;
     }
@@ -21,5 +24,13 @@
 
     .button{
         @apply bg-[#629F62] text-[#FFFFFF] px-5 py-1 rounded-lg
+    }
+
+    .section{
+        @apply grid grid-rows-[20px_1fr] pb-8 gap-4 border-b border-gray-300 pb-8 w-min
+    }
+
+    ._button{
+        @apply border border-gray-500 rounded text-gray-500 py-1 px-4
     }
 }

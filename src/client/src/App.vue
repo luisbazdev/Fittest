@@ -6,7 +6,7 @@ import Routines from './components/Routines.vue';
 </script>
 
 <template>
-<div class="w-full h-screen bg-gray-200 font-main">
+<div class="w-full h-screen font-main">
     <Main/>
 </div>
 </template>

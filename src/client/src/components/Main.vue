@@ -6,6 +6,6 @@ import Explore from './Explore.vue';
 
 <template>
 <Navbar/>
+<!-- <Explore/> -->
 <Routines/>
-<!-- <RouterView></RouterView> -->
 </template>
