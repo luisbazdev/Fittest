@@ -2,14 +2,20 @@
 import type { Exercise } from '@/interfaces'
 import { useUserStore } from '@/stores/UserStore'
 
-import type { Ref } from 'vue'
-import { ref } from 'vue'
+import axios from 'axios'
+
+import { type Ref } from 'vue'
+import { ref, reactive } from 'vue'
 import Exercises from './Exercises.vue'
 
+interface IExercise{
+    name: String,
+    repetitions: Number
+}
 // open exercises modal
 const selectExercises = ref(false)
 // selected exercises array
-const exercises: Ref<Array<any>> = ref([])
+const exercises: any = reactive([])
 
 function openExercisesPage(){
     selectExercises.value = true
@@ -20,16 +26,42 @@ function closeExercisesPage(){
 }
 
 function addExercise(exercise: any){
-    exercises.value.push(exercise)
+    exercises.push(exercise)
     selectExercises.value = false
 }
 
+function createRoutine(){
+    let routine = {
+        title: title.value,
+        description: description.value,
+        exercises: exercises,
+        type: type.value,
+        style: style.value,
+        units: units.value,
+        createdAt: new Date()
+    }
+
+    axios.post("http://localhost:8686/routine", {
+        routine
+    }, {
+        withCredentials: true
+    }).then((res) => {
+        console.log(res)
+        // if request is successful. . .
+        if(res.data){
+            console.log('routine created!')
+        }
+    })
+}
+
+const title = ref("")
+const description = ref("")
 const type = ref("Weights")
 const style = ref("Sets Ands Reps")
 const units = ref(1)
 
-const styles = ['Sets And Reps', 'Circuit', 'Every Minute On The Minute']
 const types = ["Weights", "Calisthenics", "Weighted Calisthenics", "Hybrid"]
+const styles = ['Sets And Reps', 'Circuit', 'Every Minute On The Minute']
 </script>
 
 <template>
@@ -41,11 +73,11 @@ const types = ["Weights", "Calisthenics", "Weighted Calisthenics", "Hybrid"]
         <div class="flex flex-col w-full h-full gap-2 overflow-y-auto">
             <div class="flex flex-col">
                 <span class="title">Title</span>
-                <input type="text" class="_input" placeholder="Hell Week"/>
+                <input type="text" class="_input" v-model="title" placeholder="Hell Week"/>
             </div>    
             <div class="flex flex-col">
                 <span class="title">Description</span>
-                <input type="text" class="_input" placeholder="To remember those times..."/>
+                <input type="text" class="_input" v-model="description" placeholder="To remember those times..."/>
             </div>         
             <div class="flex flex-col">
                 <span class="title">Exercises</span>
@@ -72,7 +104,7 @@ const types = ["Weights", "Calisthenics", "Weighted Calisthenics", "Hybrid"]
             </div>     
         </div>
         <div class="w-full grid grid-cols-[1fr_1fr] gap-4">
-            <button class="border border-gray-400 rounded text-gray-500 py-2">Create</button>
+            <button class="border border-gray-400 rounded text-gray-500 py-2" @click="createRoutine">Create</button>
             <button class="border border-gray-400 rounded text-gray-500 py-2" @click="$emit('closeModal')">Cancel</button>
         </div>
     </div>
