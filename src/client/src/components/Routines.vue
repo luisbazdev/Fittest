@@ -6,25 +6,26 @@ import { useUserStore } from '@/stores/UserStore'
 import type { Ref } from 'vue'
 import { ref } from 'vue'
 import RoutineComplete from './RoutineComplete.vue'
+import Routine1 from './modals/Routine.vue'
 
-const style = ref(null)
-const type = ref(null)
-const unit = ref(null)
-const _exercises = ref(null)
+const seeCreateRoutineModal = ref(false)
 
-const styles = ['Sets And Reps', 'Circuit', 'Every Minute On The Minute']
-const types = ["Weights", "Calisthenics", "Weighted Calisthenics", "Hybrid"]
-const units = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
-const exercises = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+function seeCreateRoutineModalTrue(){
+    seeCreateRoutineModal.value = true
+}
 
+function seeCreateRoutineModalFalse(){
+    seeCreateRoutineModal.value = false
+}
 </script>
 
 <template>
+<Routine1 v-if="seeCreateRoutineModal == true" @close-modal="seeCreateRoutineModalFalse"/>
 <div class="flex flex-col items-center px-6 gap-4 pt-[80px]">
     <div class="grid grid-cols-[auto_1fr] w-full h-[570px] border border-gray-400 rounded-lg">
         <div class="w-full h-full flex flex-col gap-8 overflow-y-scroll p-6">
             <div class="w-full flex gap-12 justify-center items-end">
-                <div class="_button">
+                <div class="_button" @click="seeCreateRoutineModalTrue">
                     <span>Create Routine</span>
                 </div>
                 <div class="_button">

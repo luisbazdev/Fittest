@@ -6,8 +6,13 @@
     html, body{
         @apply bg-gray-200
     }
-    .card{
+
+    /* .card{
         @apply rounded-lg shadow-md py-2 px-8;
+    } */
+
+    .card{
+        @apply rounded-lg shadow py-2 px-8;
     }
 
     .link{
@@ -32,5 +37,17 @@
 
     ._button{
         @apply border border-gray-500 rounded text-gray-500 py-1 px-4
+    }
+
+    ._input{
+        @apply border border-gray-300 rounded py-1 px-2 focus:outline-none w-full
+    }
+
+    ._input_number{
+        @apply border border-gray-300 rounded py-1 px-2 focus:outline-none w-[60px]
+    }
+
+    .title{
+        @apply text-lg
     }
 }
