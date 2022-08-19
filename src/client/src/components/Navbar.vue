@@ -1,5 +1,5 @@
 <script setup lang="ts">
-
+import { RouterLink } from 'vue-router';
 </script>
 
 <template>
@@ -8,8 +8,8 @@
         <p class="text-2xl font-semibold">Fittest</p>
     </div>
     <div class="flex justify-even items-center gap-20 pl-16 link">
-        <p>Explore</p>
-        <p>Routines</p>
+        <router-link to="explore">Explore</router-link>
+        <router-link to="routines">Routines</router-link>
         <!-- <p>Schedule</p> -->
     </div>
     <div class="flex items-center justify-center">

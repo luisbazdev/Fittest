@@ -6,6 +6,7 @@ import { useUserStore } from '@/stores/UserStore'
 import type { Ref } from 'vue'
 import { ref } from 'vue'
 import RoutineComplete from './RoutineComplete.vue'
+import Navbar from './Navbar.vue'
 
 const style = ref(null)
 const type = ref(null)
@@ -16,10 +17,10 @@ const styles = ['Sets And Reps', 'Circuit', 'Every Minute On The Minute']
 const types = ["Weights", "Calisthenics", "Weighted Calisthenics", "Hybrid"]
 const units = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
 const exercises = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
-
 </script>
 
 <template>
+<Navbar/>
 <div class="flex flex-col items-center px-6 gap-4 pt-[80px]">
     <div class="grid grid-cols-[auto_1fr] w-full h-[570px] border border-gray-400 rounded-lg">
         <div class="w-full h-full flex flex-col gap-8 overflow-y-scroll p-6">

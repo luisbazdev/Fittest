@@ -4,9 +4,8 @@ import axios from 'axios'
 
 import Login from '../components/Login.vue'
 
-import Schedule from '../components/Schedule.vue'
 import Routines from '../components/Routines.vue'
-import Workouts from '../components/Workouts.vue'
+import Explore from '../components/Explore.vue'
 
 import { useUserStore } from '../stores/UserStore'
 
@@ -15,28 +14,26 @@ const router = createRouter({
     routes: [
       { 
         path: '/:pathMatch(.*)*', 
-        redirect: '/schedule' 
+        redirect: '/explore' 
       },
       {
         path: '/login',
         name: 'login',
-        component: Login
+        component: Login,
+        props: { navbar: false }
+      },
+      {
+        path: '/explore',
+        name: 'explore',
+        component: Explore,
+        props: { navbar: true }
       },
       {
         path: '/routines',
         name: 'routines',
-        component: Routines
+        component: Routines,
+        props: { navbar: true }
       },
-      {
-        path: '/workouts',
-        name: 'workouts',
-        component: Workouts
-      },
-      {
-        path: '/schedule',
-        name: 'schedule',
-        component: Schedule
-      }
     ]
 })
 
@@ -57,10 +54,10 @@ const router = createRouter({
   
 //   if(userStore.isUserLoggedIn){
 //     if(to.name === 'login' || to.name === 'register')
-//       return { name: 'home' }
+//       return { name: 'explore' }
 //   }
 //   else{
-//     if(to.name === 'home'){
+//     if(to.name === 'explore' || to.name === 'routines'){
 //       return { name: 'login'}
 //     }
 //   }

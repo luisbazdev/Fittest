@@ -7,6 +7,7 @@ import type { Ref } from 'vue'
 import { ref } from 'vue'
 import RoutineComplete from './RoutineComplete.vue'
 import Routine1 from './modals/Routine.vue'
+import Navbar from './Navbar.vue'
 
 const seeCreateRoutineModal = ref(false)
 
@@ -20,6 +21,7 @@ function seeCreateRoutineModalFalse(){
 </script>
 
 <template>
+<Navbar/>
 <Routine1 v-if="seeCreateRoutineModal == true" @close-modal="seeCreateRoutineModalFalse"/>
 <div class="flex flex-col items-center px-6 gap-4 pt-[80px]">
     <div class="grid grid-cols-[auto_1fr] w-full h-[570px] border border-gray-400 rounded-lg">
