@@ -31,11 +31,6 @@ public class RoutineController {
         return routineQuery.findRoutines();
     } 
 
-    @GetMapping(value="/test")
-    public List<Routine> Id8(){
-        return routineRepository.findByUserId8();
-    }
-
     @GetMapping(value="/me")
     public List<Routine> findByUserId(@RequestHeader("Authorization") String AuthorizationHeader){
         String id = jwtTokenUtil.getUserIdFromToken(jwtTokenUtil.GetTokenFromAuthorizationHeader(AuthorizationHeader));
