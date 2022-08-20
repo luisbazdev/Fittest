@@ -32,7 +32,7 @@
     }
 
     .section{
-        @apply grid grid-rows-[20px_1fr] pb-8 gap-4 border-b border-gray-300 pb-8 w-min
+        @apply grid grid-rows-[20px_1fr] pb-8 gap-4 border-b border-gray-300 pb-8 w-full
     }
 
     ._button{
@@ -49,5 +49,13 @@
 
     .title{
         @apply text-lg
+    }
+
+    .clickable{
+        @apply cursor-pointer
+    }
+
+    .routine{
+        @apply shadow bg-[#FFFFFF] border border-gray-300 rounded p-2 w-[370px] h-auto grid grid-rows-[auto_auto_auto_auto] clickable
     }
 }

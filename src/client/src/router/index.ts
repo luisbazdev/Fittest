@@ -19,48 +19,43 @@ const router = createRouter({
       {
         path: '/login',
         name: 'login',
-        component: Login,
-        props: { navbar: false }
+        component: Login
       },
       {
         path: '/explore',
         name: 'explore',
-        component: Explore,
-        props: { navbar: true }
+        component: Explore
       },
       {
         path: '/routines',
         name: 'routines',
-        component: Routines,
-        props: { navbar: true }
+        component: Routines
       },
     ]
 })
 
-// router.beforeEach(async(to, from) => {
-//   const userStore = useUserStore()
+router.beforeEach(async(to, from) => {
+  const userStore = useUserStore()
 
-//   console.log(userStore.isUserLoggedIn)
-
-//   await axios.post('http://localhost:8686/auth/info', {}, {
-//     withCredentials: true
-//   })
-//   .then((res: any) => {
-//     const { sub, name, email } = res.data
-//     userStore.logUserIn(sub, name, email)
-//   }).catch((e) => {
-//     userStore.logUserOut()
-//   })
+  await axios.post('http://localhost:8686/auth/info', {}, {
+    withCredentials: true
+  })
+  .then((res: any) => {
+    const { sub, name, email } = res.data
+    userStore.logUserIn(sub, name, email)
+  }).catch((e) => {
+    userStore.logUserOut()
+  })
   
-//   if(userStore.isUserLoggedIn){
-//     if(to.name === 'login' || to.name === 'register')
-//       return { name: 'explore' }
-//   }
-//   else{
-//     if(to.name === 'explore' || to.name === 'routines'){
-//       return { name: 'login'}
-//     }
-//   }
-// })
+  if(userStore.isUserLoggedIn){
+    if(to.name === 'login' || to.name === 'register')
+      return { name: 'explore' }
+  }
+  else{
+    if(to.name === 'explore' || to.name === 'routines'){
+      return { name: 'login'}
+    }
+  }
+})
 
 export default router

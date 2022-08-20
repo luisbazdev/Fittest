@@ -14,6 +14,6 @@ const pinia = createPinia()
 const app = createApp(App)
 app.component('v-select', vSelect)
 
-// app.use(pinia)
+app.use(pinia)
 app.use(router)
 app.mount('#app')

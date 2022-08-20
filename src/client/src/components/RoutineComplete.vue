@@ -1,36 +1,50 @@
 <script setup lang="ts">
-
+import type { Exercise } from '@/interfaces';
+const routine = defineProps({
+    r_id: String,
+    r_userId: Number,
+    r_title: String,
+    r_description: String,
+    r_createdAt: String,
+    r_exercises: Array<Exercise>,
+    r_style: String,
+    r_type: String,
+    r_units: Number,
+    r_shared: Boolean
+})
 </script>
 
 <template>
-<div class="gap-1 shadow bg-[#FFFFFF] border border-gray-300 rounded p-2 w-full h-[535px] grid grid-rows-[min-content_min-content_min-content_min-content_min-content_min-content_min_content] overflow-y-scroll">
+<div class="w-full h-[535px] flex items-center justify-center" v-if="r_id == undefined">
+    <p class="font-semibold text-xl text-gray-500">Choose a routine</p>
+</div>
+<div class="gap-1 shadow bg-[#FFFFFF] border border-gray-300 rounded p-2 w-full h-[535px] grid grid-rows-[min-content_min-content_min-content_min-content_min-content_min-content_min_content] overflow-y-scroll" v-else>
     <div class="flex items-center gap-1">
-        <p class="font-semibold text-xl">Hell Week</p>
+        <p class="font-semibold text-xl">{{r_title}}</p>
         ·
         <p class="text-gray-500">#1523</p>
     </div>
     <div class="">
-        <span class="text-gray-500">A full body routine targeted to those with an
-            advanced level in calisthenics meant to burn like in hell week
-        </span>
+        <span class="text-gray-500">{{r_description}}</span>
     </div>
-    <div>
+    <div class="flex flex-col gap-3">
         <p class="font-semibold text-lg">Exercises</p>
-        <p class="text-gray-500">15 · Pull Ups</p>
-        <p class="text-gray-500">20 · Push Ups</p>
-        <p class="text-gray-500">30 · Squats</p>
+        <div class="flex items-center gap-1" v-for="exercise in r_exercises">
+            <input readonly min="1" max="100" type="number" class="_input_number" v-model="exercise.repetitions"/>
+            <p>x {{exercise.name}}</p>
+        </div>
     </div>
     <div>
         <p class="font-semibold text-lg">Units</p>
-        <p class="text-gray-500">4</p>
+        <p class="text-gray-500">{{r_units}}</p>
     </div>
     <div>
         <p class="font-semibold text-lg">Style</p>
-        <p class="text-gray-500">Circuit</p>
+        <p class="text-gray-500">{{r_style}}</p>
     </div>
     <div class="">
         <p class="font-semibold text-lg">Type</p>
-        <p class="text-[#0F78A9] font-semibold">Calisthenics</p>
+        <p class="text-[#0F78A9] font-semibold">{{r_type}}</p>
     </div>
     <div class="flex items-center gap-1">
         <img class="w-[35px] h-[35px] rounded-md object-fit border-2 border-gray-300"

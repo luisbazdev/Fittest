@@ -8,6 +8,8 @@ import { type Ref } from 'vue'
 import { ref, reactive } from 'vue'
 import Exercises from './Exercises.vue'
 
+const emit = defineEmits(['closeModal'])
+
 interface IExercise{
     name: String,
     repetitions: Number
@@ -31,18 +33,15 @@ function addExercise(exercise: any){
 }
 
 function createRoutine(){
-    let routine = {
+    axios.post("http://localhost:8686/routine", {
         title: title.value,
         description: description.value,
+        createdAt: new Date(),
         exercises: exercises,
         type: type.value,
         style: style.value,
         units: units.value,
-        createdAt: new Date()
-    }
-
-    axios.post("http://localhost:8686/routine", {
-        routine
+        shared: false
     }, {
         withCredentials: true
     }).then((res) => {
@@ -51,6 +50,8 @@ function createRoutine(){
         if(res.data){
             console.log('routine created!')
         }
+
+        emit('closeModal')
     })
 }
 

@@ -4,9 +4,18 @@ import type { Exercise } from '@/interfaces'
 import { useUserStore } from '@/stores/UserStore'
 
 import type { Ref } from 'vue'
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 import RoutineComplete from './RoutineComplete.vue'
 import Navbar from './Navbar.vue'
+import axios from 'axios';
+
+const routines: any = ref([])
+
+axios.get("http://localhost:8686/routine", {
+    withCredentials: true
+}).then((_routines: any) => {
+    routines.value = _routines.data
+})
 
 const style = ref(null)
 const type = ref(null)
@@ -17,6 +26,13 @@ const styles = ['Sets And Reps', 'Circuit', 'Every Minute On The Minute']
 const types = ["Weights", "Calisthenics", "Weighted Calisthenics", "Hybrid"]
 const units = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
 const exercises = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+
+const preview: any = ref(null)
+
+function setPreview(_preview: any){
+    preview.value = _preview
+}
+
 </script>
 
 <template>
@@ -50,36 +66,31 @@ const exercises = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
                     <v-select :options="units" v-model="unit" class="w-[100px]" placeholder="All"></v-select>
                 </div>
             </div>
-            <div class="section">
-                <p class="text-2xl">Weights</p>
+
+            <div class="section" v-for="(routine, type) in routines">
+                <p class="text-2xl">{{type}}</p>
                 <div class="grid grid-cols-[auto_auto] justify-start gap-4">
-                    <Routine/>
-                    <Routine/>
+                    <div v-for="_routine in routine">
+                        <Routine 
+                        :key="_routine.id"
+                        :r_id = "_routine.id"
+                        :r_userId = "_routine.userId" 
+                        :r_title="_routine.title"
+                        :r_description="_routine.description"
+                        :r_created-at="_routine.createdAt"
+                        :r_exercises="_routine.exercises"
+                        :r_style="_routine.style" 
+                        :r_type="_routine.type"
+                        :r_units="_routine.units"
+                        :r_shared="_routine.shared"
+                        @set-preview="setPreview"/>
+                    </div>
                 </div>
             </div>
-            <div class="section">
-                <p class="text-2xl">Calisthenics</p>
-                <div class="grid grid-cols-[auto_auto] justify-start gap-4">
-                    <Routine/>
-                    <Routine/>
-                    <Routine/>
-                    <Routine/>
-                    <Routine/>
-                    <Routine/>
-                    <Routine/>
-                </div>
-            </div>
-            <div class="section">
-                <p class="text-2xl">Hybrid</p>
-                <div class="grid grid-cols-[auto_auto] justify-start gap-4">
-                    <Routine/>
-                    <Routine/>
-                    <Routine/>
-                </div>
-            </div>
+
         </div>
-        <div class="w-full p-4">
-            <RoutineComplete/>
+        <div class="w-full p-4 border-l border-gray-400">
+            <RoutineComplete v-bind="preview"/>
         </div>
     </div>
 </div>
