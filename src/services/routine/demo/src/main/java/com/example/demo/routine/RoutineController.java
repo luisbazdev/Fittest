@@ -26,7 +26,7 @@ public class RoutineController {
         this.jwtTokenUtil = jwtTokenUtil;
     }
 
-    @GetMapping
+    @GetMappingasd
     public Map findAll(){
         return routineQuery.findRoutines();
     } 
