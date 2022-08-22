@@ -12,6 +12,9 @@ const routine = defineProps({
     r_units: Number,
     r_shared: Boolean
 })
+
+const date = new Date(routine.r_createdAt)
+
 const emit = defineEmits(['setPreview'])
 function setPreview(){
     emit('setPreview', routine)
@@ -20,23 +23,24 @@ function setPreview(){
 
 <template>
 <div class="routine" @click="setPreview">
-<!-- <div class="shadow bg-[#FFFFFF] border border-gray-300 rounded p-2 w-[370px] h-auto grid grid-rows-[auto_auto_auto_auto]"> -->
-    <div class="flex items-center gap-1">
-        <p class="font-semibold text-xl">{{r_title}}</p>
-        ·
-        <p class="text-gray-500">#1523</p>
+    <div class="flex h-full items-center content-center mb-4 relative">
+        <p class="font-semibold text-2xl text-gray-800">{{r_type}}</p>
+        <font-awesome-icon class="absolute right-0 text-gray-700" icon="fa-solid fa-ellipsis-vertical" size="xl"/>
     </div>
-    <div class="flex h-full items-center content-center">
-        <p class="text-[#0F78A9] font-semibold">{{r_type}}</p>
+    <div class="flex items-center gap-1 font-semibold text-gray-800">
+        <p>{{r_title}}</p>
+        <p>#1523</p>
     </div>
-    <div class="">
+    <div class="border-b">
         <span class="text-gray-500">{{r_description}}</span>
     </div>
-    <div class="flex items-center gap-1">
+    <div class="flex items-start gap-1 pt-3">
         <img class="w-[35px] h-[35px] rounded-md object-fit border-2 border-gray-300"
         src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Steve_Jobs_Headshot_2010-CROP_%28cropped_2%29.jpg/800px-Steve_Jobs_Headshot_2010-CROP_%28cropped_2%29.jpg" />
-        <p class="text-gray-500 text-md">Luis Alejandro · 09/07/01</p>
+        <div class="flex flex-col justify-start">
+            <p class="text-gray-500 text-md">Luis Alejandro</p>
+            <p class="text-gray-500 text-sm">{{date.toLocaleTimeString()}} - {{date.toLocaleDateString()}}</p>
+        </div>
     </div>
-
 </div>
 </template>

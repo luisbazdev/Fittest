@@ -7,10 +7,6 @@
         @apply bg-gray-200
     }
 
-    /* .card{
-        @apply rounded-lg shadow-md py-2 px-8;
-    } */
-
     .card{
         @apply rounded-lg shadow py-2 px-8;
     }
@@ -56,6 +52,6 @@
     }
 
     .routine{
-        @apply shadow bg-[#FFFFFF] border border-gray-300 rounded p-2 w-[370px] h-auto grid grid-rows-[auto_auto_auto_auto] clickable
+        @apply shadow bg-[#FFFFFF] border border-gray-300 rounded p-2 py-4 w-[370px] h-[160px] grid grid-rows-[18px_18px_auto_auto] clickable
     }
 }

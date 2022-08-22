@@ -8,8 +8,14 @@ import { RouterLink } from 'vue-router';
         <p class="text-2xl font-semibold">Fittest</p>
     </div>
     <div class="flex justify-even items-center gap-20 pl-16 link">
-        <router-link to="explore">Explore</router-link>
-        <router-link to="routines">Routines</router-link>
+        <div class="flex gap-2">
+            <font-awesome-icon icon="fa-solid fa-earth-americas" size="lg" class=""/>
+            <router-link to="explore" class="">Explore</router-link>
+        </div>
+        <div class="flex gap-2">
+            <font-awesome-icon icon="fa-solid fa-dumbbell" size="lg"/>
+            <router-link to="routines">Routines</router-link>   
+        </div>
         <!-- <p>Schedule</p> -->
     </div>
     <div class="flex items-center justify-center">

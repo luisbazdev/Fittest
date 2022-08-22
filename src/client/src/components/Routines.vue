@@ -1,9 +1,5 @@
 <script setup lang="ts">
 import Routine from './Routine.vue';
-import type { Exercise } from '@/interfaces'
-import { useUserStore } from '@/stores/UserStore'
-
-import type { Ref } from 'vue'
 import { ref } from 'vue'
 import RoutineComplete from './RoutineComplete.vue'
 import Routine1 from './modals/Routine.vue'
@@ -40,7 +36,7 @@ function setPreview(_preview: any){
 <Routine1 v-if="seeCreateRoutineModal == true" @close-modal="seeCreateRoutineModalFalse"/>
 <div class="flex flex-col items-center px-6 gap-4 pt-[80px]">
     <div class="grid grid-cols-[auto_1fr] w-full h-[570px] border border-gray-400 rounded-lg">
-        <div class="w-full h-full flex flex-col gap-8 overflow-y-scroll p-6">
+        <div class="w-full h-full flex flex-col gap-8 overflow-y-auto p-6">
             <div class="w-full flex gap-12 justify-center items-end">
                 <div class="_button" @click="seeCreateRoutineModalTrue">
                     <span>Create Routine</span>
