@@ -1,15 +1,9 @@
 <script setup lang="ts">
-import type { Exercise } from '@/interfaces'
-import { useUserStore } from '@/stores/UserStore'
-
-import type { Ref } from 'vue'
-import { ref} from 'vue'
-
 import exercises from '../../exercises/exercises.json';
 </script>
 
 <template>
-<div class="fixed bg-black/10 w-full h-full flex items-center justify-center">
+<div class="fixed bg-black/30 w-full h-full flex items-center justify-center z-50">
     <div class="flex flex-col items-center w-[500px] h-[550px] mt-[56px] bg-white card">
         <div class="w-full flex justify-center">
             <h1 class="text-xl">Choose Exercise</h1>

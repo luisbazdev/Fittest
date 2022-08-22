@@ -1,10 +1,6 @@
 <script setup lang="ts">
-import type { Exercise } from '@/interfaces'
-import { useUserStore } from '@/stores/UserStore'
-
 import axios from 'axios'
 
-import { type Ref } from 'vue'
 import { ref, reactive } from 'vue'
 import Exercises from './Exercises.vue'
 
@@ -66,7 +62,7 @@ const styles = ['Sets And Reps', 'Circuit', 'Every Minute On The Minute']
 </script>
 
 <template>
-<div class="fixed bg-black/10 w-full h-full flex items-center justify-center" v-if="selectExercises == false">
+<div class="fixed bg-black/30 w-full h-full flex items-center justify-center z-50" v-if="selectExercises == false">
     <div class="flex flex-col items-center w-[530px] h-[550px] mt-[56px] bg-white card">
         <div class="w-full flex justify-center">
             <h1 class="text-xl">Create Routine</h1>
