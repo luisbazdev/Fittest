@@ -1,12 +1,13 @@
 package com.example.demo.routine;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.jwt.JwtTokenUtil;
-
-import io.jsonwebtoken.Claims;
 
 import java.util.List;
 import java.util.Map;
@@ -20,11 +21,19 @@ public class RoutineController {
     private final JwtTokenUtil jwtTokenUtil;
 
     @Autowired
-    public RoutineController(RoutineQuery routineQuery, RoutineRepository routineRepository, JwtTokenUtil jwtTokenUtil){
-        this.routineQuery = routineQuery;
+    public RoutineController(RoutineRepository routineRepository, RoutineQuery routineQuery, JwtTokenUtil jwtTokenUtil){
         this.routineRepository = routineRepository;
+        this.routineQuery = routineQuery;
         this.jwtTokenUtil = jwtTokenUtil;
     }
+
+    // @GetMapping
+    // public Page<Routine> getAll(
+    //     @RequestParam(defaultValue = "0") int page,
+    //     @RequestParam(defaultValue = "10") int size){
+    //     Pageable paging = PageRequest.of(page, size);
+    //     return routineQuery.findRoutines(paging);
+    // }
 
     @GetMapping
     public Map findAll(){

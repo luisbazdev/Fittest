@@ -27,19 +27,19 @@ public class RoutineQuery {
         setRoutines();
 
         HashMap map = new HashMap<>();
-        map.put("weighted", getWeighted());
-        map.put("calisthenics", getCalisthenics());
-        map.put("weighted calisthenics", getWeightedCalisthenics());
-        map.put("hybrid", getHybrid());
+        map.put("Weights", getWeighted());
+        map.put("Calisthenics", getCalisthenics());
+        map.put("Weighted Calisthenics", getWeightedCalisthenics());
+        map.put("Hybrid", getHybrid());
 
         return map;
     }
 
     public void setRoutines(){
-        this.weighted = routineRepository.findWeightedRoutines();
-        this.calisthenics = routineRepository.findCalisthenicsRoutines();
-        this.weighted_calisthenics = routineRepository.findWeightedCalisthenicsRoutines();
-        this.hybrid = routineRepository.findHybridRoutines();
+        this.weighted = routineRepository.findTop20ByTypeAndSharedOrderByCreatedAtDesc("Weights", true);
+        this.calisthenics = routineRepository.findTop20ByTypeAndSharedOrderByCreatedAtDesc("Calisthenics", true);
+        this.weighted_calisthenics = routineRepository.findTop20ByTypeAndSharedOrderByCreatedAtDesc("Weighted Calisthenics", true);
+        this.hybrid = routineRepository.findTop20ByTypeAndSharedOrderByCreatedAtDesc("Hybrid", true);
     }
 
     public List<Routine> getWeighted(){
