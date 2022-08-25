@@ -27,16 +27,17 @@ public class RoutineController {
         this.jwtTokenUtil = jwtTokenUtil;
     }
 
-    // @GetMapping
-    // public Page<Routine> getAll(
-    //     @RequestParam(defaultValue = "0") int page,
-    //     @RequestParam(defaultValue = "10") int size){
-    //     Pageable paging = PageRequest.of(page, size);
-    //     return routineQuery.findRoutines(paging);
-    // }
-
     @GetMapping
-    public Map findAll(){
+    public Page<Routine> findAll(
+        @RequestParam(defaultValue = "Weights") String type,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "20") int size){
+        Pageable paging = PageRequest.of(page, size);
+        return routineRepository.findByTypeAndShared(type, true, paging);
+    }
+
+    @GetMapping(value = "/latest")
+    public Map findLatest(){
         return routineQuery.findRoutines();
     } 
 
