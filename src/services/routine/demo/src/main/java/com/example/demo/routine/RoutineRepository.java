@@ -14,4 +14,6 @@ public interface RoutineRepository extends MongoRepository<Routine, String>{
     List<Routine> findTop20ByTypeAndSharedOrderByCreatedAtDesc(String type, Boolean shared);
 
     Page<Routine> findByTypeAndShared(String type, Boolean shared, Pageable pageable);
+
+    Page<Routine> findBySharedIsTrue(Pageable pageable);
 }
