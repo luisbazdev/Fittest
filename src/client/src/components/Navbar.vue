@@ -14,7 +14,7 @@ import { RouterLink } from 'vue-router';
         </div>
         <div class="flex gap-2">
             <font-awesome-icon icon="fa-solid fa-dumbbell" size="lg"/>
-            <router-link to="routines">Routines</router-link>   
+            <router-link to="me">My Routines</router-link>   
         </div>
         <!-- <p>Schedule</p> -->
     </div>

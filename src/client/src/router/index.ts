@@ -4,7 +4,7 @@ import axios from 'axios'
 
 import Login from '../components/Login.vue'
 
-import Routines from '../components/Routines.vue'
+import MyRoutines from '../components/MyRoutines.vue'
 import Explore from '../components/Explore.vue'
 
 import { useUserStore } from '../stores/UserStore'
@@ -27,10 +27,10 @@ const router = createRouter({
         component: Explore
       },
       {
-        path: '/routines',
-        name: 'routines',
-        component: Routines
-      },
+        path: '/me',
+        name: 'me',
+        component: MyRoutines
+      }
     ]
 })
 
