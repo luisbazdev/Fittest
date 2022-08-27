@@ -29,10 +29,15 @@ public class RoutineController {
 
     @GetMapping
     public Page<Routine> findAll(
-        @RequestParam(defaultValue = "Weights") String type,
-        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(required = false) String type,
+        @RequestParam(defaultValue = "0", required = true) int page,
         @RequestParam(defaultValue = "20") int size){
         Pageable paging = PageRequest.of(page, size);
+
+        if(type == null){
+            return routineRepository.findBySharedIsTrue(paging);
+        }
+        
         return routineRepository.findByTypeAndShared(type, true, paging);
     }
 
