@@ -37,7 +37,7 @@ function createRoutine(){
         type: type.value,
         style: style.value,
         units: units.value,
-        shared: false
+        shared: true
     }, {
         withCredentials: true
     }).then((res) => {

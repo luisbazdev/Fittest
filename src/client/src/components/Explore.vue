@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Routine from './Routine.vue';
-import { ref } from 'vue'
+import { ref, type Ref } from 'vue'
 import RoutineComplete from './RoutineComplete.vue'
 import Navbar from './Navbar.vue'
 import axios from 'axios';
@@ -13,23 +13,42 @@ const params = router.currentRoute.value.query
 
 const q_style = ref(params.style || null)
 const q_type = ref(params.type || null)
-const q_page = ref(params.page || null)
+const q_page: Ref<Number> = ref(Number(params.page) || 0)
+
+const page_first = ref(null)
+const page_last = ref(null)
 
 const routines: any = ref([])
 
 if(q_type.value == null || q_type.value == ""){
-    axios.get(`http://localhost:8686/routine`, {
-        withCredentials: true
-    }).then((_routines: any) => {
-        routines.value = _routines.data
-    })
+    if(q_page.value == 0){
+        axios.get(`http://localhost:8686/routine`, {
+            withCredentials: true
+        }).then((_routines: any) => {
+            routines.value = _routines.data.content
+            page_first.value = _routines.data.first
+            page_last.value = _routines.data.last
+        })
+    }
+    else{
+        axios.get(`http://localhost:8686/routine?page=${q_page.value}`, {
+            withCredentials: true
+        }).then((_routines: any) => {
+            routines.value = _routines.data.content
+            page_first.value = _routines.data.first
+            page_last.value = _routines.data.last
+        })
+    }
+
 }
 
 else{
     axios.get(`http://localhost:8686/routine?type=${q_type.value}`, {
         withCredentials: true
     }).then((_routines: any) => {
-        routines.value = _routines.data
+        routines.value = _routines.data.content
+        page_first.value = _routines.data.first
+        page_last.value = _routines.data.last
     })
 }
 
@@ -57,6 +76,20 @@ function fetchRoutines(){
         router.push({path: '/explore', query: { type: q_type.value }})
     else
         router.push({path: '/explore'})
+}
+
+function goBack(){
+    if(q_type.value != null)
+        router.push({path: '/explore', query: { type: q_type.value, page: (q_page.value - 1) }})
+    else
+        router.push({path: '/explore', query: { page: q_page.value - 1}})
+}
+
+function goNext(){
+    if(q_type.value != null)
+        router.push({path: '/explore', query: { type: q_type.value, page: (q_page.value + 1) }})
+    else
+        router.push({path: '/explore', query: { page: (q_page.value + 1) }})
 }
 
 </script>
@@ -90,27 +123,32 @@ function fetchRoutines(){
                 </div> -->
             </div>
 
-            <div v-if="routines.content.length > 0">
-                <div v-for="routine in routines" class="w-full">
-                    <div class="w-full" v-if="routine.length > 0">
+            <div class="w-full h-full grid grid-rows-[auto_40px]" v-if="routines.length > 0">
+                <div class="w-full">
+                    <div class="w-full">
                         <div class="w-full grid grid-cols-[auto_auto] justify-start gap-4">
-                            <div class="w-full" v-for="_routine in routine">
+                            <div class="w-full" v-for="routine in routines" >
                                 <Routine 
-                                :key="_routine.id"
-                                :r_id = "_routine.id"
-                                :r_userId = "_routine.userId" 
-                                :r_title="_routine.title"
-                                :r_description="_routine.description"
-                                :r_created-at="_routine.createdAt"
-                                :r_exercises="_routine.exercises"
-                                :r_style="_routine.style" 
-                                :r_type="_routine.type"
-                                :r_units="_routine.units"
-                                :r_shared="_routine.shared"
+                                :key="routine.id"
+                                :r_id = "routine.id"
+                                :r_userId = "routine.userId" 
+                                :r_title="routine.title"
+                                :r_description="routine.description"
+                                :r_created-at="routine.createdAt"
+                                :r_exercises="routine.exercises"
+                                :r_style="routine.style" 
+                                :r_type="routine.type"
+                                :r_units="routine.units"
+                                :r_shared="routine.shared"
                                 @set-preview="setPreview"/>
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div class="w-full flex items-center justify-center gap-8 py-16">
+                    <button class="button" :class="{button_disabled: page_first == true}" :disabled="page_first == true" @click="goBack">Previous</button>
+                    <button class="button" :class="{button_disabled: page_last == true}" :disabled="page_last == true" @click="goNext">Next</button>
                 </div>
             </div>
 
