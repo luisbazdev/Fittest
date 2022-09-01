@@ -28,17 +28,18 @@ public class RoutineController {
     }
 
     @GetMapping
-    public Page<Routine> findAll(
-        @RequestParam(required = false) String type,
-        @RequestParam(defaultValue = "0", required = true) int page,
-        @RequestParam(defaultValue = "20") int size){
+    public Page<Routine> getAll(
+        @RequestParam(name="type", required = false) String type,
+        @RequestParam(name="page", defaultValue = "0", required = true) int page,
+        @RequestParam(name="size", defaultValue = "20") int size){
+
         Pageable paging = PageRequest.of(page, size);
 
-        if(type == null){
-            return routineRepository.findBySharedIsTrue(paging);
+        if(type != null){
+            return routineRepository.findByTypeAndSharedIsTrue(type, paging);
         }
-        
-        return routineRepository.findByTypeAndShared(type, true, paging);
+	        
+        return routineRepository.findBySharedIsTrue(paging);
     }
 
     @GetMapping(value = "/latest")
