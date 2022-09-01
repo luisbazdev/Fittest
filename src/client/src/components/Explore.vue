@@ -43,13 +43,24 @@ if(q_type.value == null || q_type.value == ""){
 }
 
 else{
-    axios.get(`http://localhost:8686/routine?type=${q_type.value}`, {
-        withCredentials: true
-    }).then((_routines: any) => {
-        routines.value = _routines.data.content
-        page_first.value = _routines.data.first
-        page_last.value = _routines.data.last
-    })
+    if(q_page.value == 0){
+        axios.get(`http://localhost:8686/routine?type=${q_type.value}`, {
+            withCredentials: true
+        }).then((_routines: any) => {
+            routines.value = _routines.data.content
+            page_first.value = _routines.data.first
+            page_last.value = _routines.data.last
+        })
+    }
+    else{
+        axios.get(`http://localhost:8686/routine?type=${q_type.value}&page=${q_page.value}`, {
+            withCredentials: true
+        }).then((_routines: any) => {
+            routines.value = _routines.data.content
+            page_first.value = _routines.data.first
+            page_last.value = _routines.data.last
+        })
+    }
 }
 
 const styles = ["Sets And Reps", "Circuit", "Every Minute On The Minute"]
