@@ -8,10 +8,7 @@ import org.springframework.data.mongodb.repository.Query;
 import java.util.List;
 
 public interface RoutineRepository extends MongoRepository<Routine, String>{
-    @Query("{userId: ?0}")
     List<Routine> findByUserId(Integer userId);
-
-    List<Routine> findTop20ByTypeAndSharedOrderByCreatedAtDesc(String type, Boolean shared);
 
     Page<Routine> findByTypeAndSharedIsTrue(String type, Pageable pageable);
 

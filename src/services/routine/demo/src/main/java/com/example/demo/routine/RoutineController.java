@@ -16,14 +16,12 @@ import java.util.Map;
 @RequestMapping("/api/routine")
 @CrossOrigin(origins = {"http://localhost:8686", "http://localhost:5173"}, allowCredentials = "true")
 public class RoutineController {
-    private final RoutineQuery routineQuery;
     private final RoutineRepository routineRepository;
     private final JwtTokenUtil jwtTokenUtil;
 
     @Autowired
-    public RoutineController(RoutineRepository routineRepository, RoutineQuery routineQuery, JwtTokenUtil jwtTokenUtil){
+    public RoutineController(RoutineRepository routineRepository, JwtTokenUtil jwtTokenUtil){
         this.routineRepository = routineRepository;
-        this.routineQuery = routineQuery;
         this.jwtTokenUtil = jwtTokenUtil;
     }
 
@@ -42,13 +40,8 @@ public class RoutineController {
         return routineRepository.findBySharedIsTrue(paging);
     }
 
-    @GetMapping(value = "/latest")
-    public Map findLatest(){
-        return routineQuery.findRoutines();
-    } 
-
     @GetMapping(value="/me")
-    public List<Routine> findByUserId(@RequestHeader("Authorization") String AuthorizationHeader){
+    public List<Routine> getAllByUserId(@RequestHeader("Authorization") String AuthorizationHeader){
         String id = jwtTokenUtil.getUserIdFromToken(jwtTokenUtil.GetTokenFromAuthorizationHeader(AuthorizationHeader));
         return routineRepository.findByUserId(Integer.valueOf(id));
     }
