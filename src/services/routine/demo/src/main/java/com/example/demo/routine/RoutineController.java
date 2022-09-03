@@ -41,9 +41,15 @@ public class RoutineController {
     }
 
     @GetMapping(value="/me")
-    public List<Routine> getAllByUserId(@RequestHeader("Authorization") String AuthorizationHeader){
+    public Page<Routine> getAllByUserId(
+        @RequestHeader("Authorization") String AuthorizationHeader,
+        @RequestParam(name="page", defaultValue = "0", required = true) int page,
+        @RequestParam(name="size", defaultValue = "20") int size){
         String id = jwtTokenUtil.getUserIdFromToken(jwtTokenUtil.GetTokenFromAuthorizationHeader(AuthorizationHeader));
-        return routineRepository.findByUserId(Integer.valueOf(id));
+
+        Pageable paging = PageRequest.of(page, size);
+
+        return routineRepository.findByUserId(Integer.valueOf(id), paging);
     }
 
     @PostMapping

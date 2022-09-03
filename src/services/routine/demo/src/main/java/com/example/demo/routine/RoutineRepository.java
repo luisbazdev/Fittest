@@ -5,10 +5,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
-import java.util.List;
-
 public interface RoutineRepository extends MongoRepository<Routine, String>{
-    List<Routine> findByUserId(Integer userId);
+    Page<Routine> findByUserId(Integer userId, Pageable pageable);
 
     Page<Routine> findByTypeAndSharedIsTrue(String type, Pageable pageable);
 
