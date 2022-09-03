@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import Routine from './Routine.vue';
-import { ref } from 'vue'
+import { ref, type Ref } from 'vue'
 import RoutineComplete from './RoutineComplete.vue'
 import Routine1 from './modals/Routine.vue'
 import Navbar from './Navbar.vue'
 import axios from 'axios';
+import { useRouter } from 'vue-router';
 
 const seeCreateRoutineModal = ref(false)
 
@@ -16,13 +17,45 @@ function seeCreateRoutineModalFalse(){
     seeCreateRoutineModal.value = false
 }
 
+const router = useRouter()
+const params = router.currentRoute.value.query
+
 const routines: any = ref([])
 
-axios.get("http://localhost:8686/routine/me", {
-    withCredentials: true
-}).then((_routines: any) => {
-    routines.value = _routines.data
-})
+const q_page: Ref<Number> = ref(Number(params.page) || 0)
+
+const page_first = ref(null)
+const page_last = ref(null)
+
+if(q_page.value == 0){
+        axios.get(`http://localhost:8686/routine/me`, {
+            withCredentials: true
+        }).then((_routines: any) => {
+            routines.value = _routines.data.content
+            page_first.value = _routines.data.first
+            page_last.value = _routines.data.last
+        })
+    }
+else{
+    axios.get(`http://localhost:8686/routine/me?page=${q_page.value}`, {
+        withCredentials: true
+    }).then((_routines: any) => {
+        routines.value = _routines.data.content
+        page_first.value = _routines.data.first
+        page_last.value = _routines.data.last
+    })
+}
+
+function goBack(){
+    if(q_page.value == 1)
+        router.push({path: '/me'})
+    else
+        router.push({path: '/me', query: { page: q_page.value - 1}})
+}
+
+function goNext(){
+    router.push({path: '/me', query: { page: (q_page.value + 1) }})
+}
 
 const preview: any = ref(null)
 
@@ -65,6 +98,11 @@ function setPreview(_preview: any){
                         @set-preview="setPreview"/>
                     </div>
                 </div>
+            </div>
+
+            <div class="w-full flex items-center justify-center gap-8 py-16">
+                <button class="button" :class="{button_disabled: page_first == true}" :disabled="page_first == true" @click="goBack">Previous</button>
+                <button class="button" :class="{button_disabled: page_last == true}" :disabled="page_last == true" @click="goNext">Next</button>
             </div>
             
         </div>

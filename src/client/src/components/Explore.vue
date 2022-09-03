@@ -8,7 +8,6 @@ import { useRouter } from 'vue-router';
 import { RouterLink } from 'vue-router';
 
 const router = useRouter()
-
 const params = router.currentRoute.value.query
 
 const q_style = ref(params.style || null)
@@ -65,8 +64,6 @@ else{
 
 const styles = ["Sets And Reps", "Circuit", "Every Minute On The Minute"]
 const types = ["Weights", "Calisthenics", "Weighted Calisthenics", "Hybrid"]
-const units = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
-const exercises = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
 
 const preview: any = ref(null)
 
