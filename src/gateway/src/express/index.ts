@@ -1,4 +1,4 @@
-import express, { Express } from "express";
+import express, { Express, Request } from "express";
 import proxy from "express-http-proxy";
 import cors, { CorsOptions } from "cors";
 import cookieParser from "cookie-parser";
@@ -13,30 +13,24 @@ const options: CorsOptions = {
 }
 
 app.use(cors(options));
-app.use(cookieParser())
+app.use(cookieParser());
+
+function resolver(req: Request){
+    return `/api${req.originalUrl}`
+}
 
 app.use("/auth/info", isAuthenticatedMiddleware, proxy("http://localhost:1234", {
-    proxyReqPathResolver: function(req) {
-        return `/api${req.originalUrl}`
-    }
+    proxyReqPathResolver: resolver
 }));
 app.use("/auth", proxy('http://localhost:1234', {
-    proxyReqPathResolver: function(req) {
-        return `/api${req.originalUrl}`
-    }
+    proxyReqPathResolver: resolver
 }));
 app.use("/routine", isAuthenticatedMiddleware, proxy('http://localhost:1235', {
-    proxyReqPathResolver: function(req) {
-        return `/api${req.originalUrl}`
-    }
+    proxyReqPathResolver: resolver
 }));
 app.use("/workout", isAuthenticatedMiddleware, proxy('http://localhost:1236', {
-    proxyReqPathResolver: function(req) {
-        return `/api${req.originalUrl}`
-    }
+    proxyReqPathResolver: resolver
 }));
 app.use("/schedule", isAuthenticatedMiddleware, proxy('http://localhost:1237', {
-    proxyReqPathResolver: function(req) {
-        return `/api${req.originalUrl}`
-    }
+    proxyReqPathResolver: resolver
 }));
