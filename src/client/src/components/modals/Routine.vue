@@ -10,22 +10,34 @@ interface IExercise{
     name: String,
     repetitions: Number
 }
-// open exercises modal
-const selectExercises = ref(false)
+const selectCalisthenicsExercises = ref(false)
+const selectWeightsExercises = ref(false)
 // selected exercises array
-const exercises: any = reactive([])
+let exercises: any = reactive([])
 
-function openExercisesPage(){
-    selectExercises.value = true
+function openCalisthenicsExercisesPage(){
+    selectCalisthenicsExercises.value = true
+}
+
+function openWeightsExercisesPage(){
+    selectWeightsExercises.value = true
 }
 
 function closeExercisesPage(){
-    selectExercises.value = false
+    selectCalisthenicsExercises.value = false
+    selectWeightsExercises.value = false
 }
 
 function addExercise(exercise: any){
     exercises.push(exercise)
-    selectExercises.value = false
+
+    selectCalisthenicsExercises.value = false
+    selectWeightsExercises.value = false
+}
+
+function removeExercise(exercise: any){
+    //...
+    console.log(exercises)
 }
 
 function createRoutine(){
@@ -57,17 +69,17 @@ const type = ref("Weights")
 const style = ref("Sets Ands Reps")
 const units = ref(1)
 
-const types = ["Weights", "Calisthenics", "Weighted Calisthenics", "Hybrid"]
+const types = ["Weights", "Calisthenics", "Hybrid"]
 const styles = ['Sets And Reps', 'Circuit', 'Every Minute On The Minute']
 </script>
 
 <template>
-<div class="fixed bg-black/30 w-full h-full flex items-center justify-center z-50" v-if="selectExercises == false">
-    <div class="flex flex-col items-center w-[530px] h-[550px] mt-[56px] bg-white card">
-        <div class="w-full flex justify-center">
+<div class="fixed bg-black/30 w-full h-full flex items-center justify-center z-50" v-if="selectCalisthenicsExercises == false && selectWeightsExercises == false">
+    <div class="flex flex-col items-center w-[550px] h-[550px] mt-[56px] bg-white p-0 card">
+        <div class="w-full flex justify-center items-center py-3 border-b rounded-t-lg bg-white">
             <h1 class="text-xl">Create Routine</h1>
         </div>
-        <div class="flex flex-col w-full h-full gap-2 overflow-y-auto">
+        <div class="flex flex-col w-full h-full gap-4 overflow-y-auto bg-gray-100 py-2 px-8">
             <div class="flex flex-col">
                 <span class="title">Title</span>
                 <input type="text" class="_input" v-model="title" placeholder="Hell Week"/>
@@ -78,14 +90,21 @@ const styles = ['Sets And Reps', 'Circuit', 'Every Minute On The Minute']
             </div>         
             <div class="flex flex-col">
                 <span class="title">Exercises</span>
-                <div class="flex flex-col gap-3">
+
+                <div class="flex items-center justify-center gap-2 py-2 text-[#4a4a4a] border-b">
+                    Choose 
+                    <p class="text-[#8a8a8a] clickable underline" @click="openCalisthenicsExercisesPage">Calisthenics Exercises</p> 
+                    or
+                    <p class="text-[#8a8a8a] clickable underline" @click="openWeightsExercisesPage">Weights Exercises</p> 
+                </div>
+                <div class="flex flex-col mt-4 gap-3" v-if="exercises.length > 0">
                     <div class="flex items-center gap-1" v-for="exercise in exercises">
                         <input min="1" max="100" type="number" class="_input_number" v-model="exercise.repetitions"/>
-                        <p>x {{exercise.name}}</p>
+                        x
+                        <p>{{exercise.name}}</p>
+                        <!-- <font-awesome-icon icon="fa-solid fa-trash" class="ml-2 text-gray-800" @click="removeExercise(exercise)"/> -->
                     </div>
                 </div>
-  
-                <p class="text-[#8a8a8a]" @click="openExercisesPage">Add exercise</p>
             </div> 
             <div class="flex flex-col">
                 <span class="title">Type</span>
@@ -96,16 +115,17 @@ const styles = ['Sets And Reps', 'Circuit', 'Every Minute On The Minute']
                 <v-select :options="styles" v-model="style" class="w-full" placeholder="All"></v-select>
             </div>      
             <div class="flex flex-col">
-                <span class="label">Units</span>
+                <span class="title">Units</span>
                 <input min="1" max="100" type="number" class="_input_number" v-model="units"/>
             </div>     
         </div>
-        <div class="w-full grid grid-cols-[1fr_1fr] gap-4">
-            <button class="border border-gray-400 rounded text-gray-500 py-2" @click="createRoutine">Create</button>
+        <div class="w-full grid grid-cols-[1fr_1fr] gap-4 p-4 bg-white border-t rounded-b-lg">
+            <button class="border border-gray-400 rounded text-gray-500 py-2" :disabled="!title || !description || exercises.length < 1 || !type || !style || units < 1" @click="createRoutine">Create</button>
             <button class="border border-gray-400 rounded text-gray-500 py-2" @click="$emit('closeModal')">Cancel</button>
         </div>
     </div>
 </div>
 
-<Exercises v-else @close-exercises-page="closeExercisesPage" @add-exercise="addExercise"/>
+<Exercises type="Calisthenics" v-else-if="selectCalisthenicsExercises == true" @close-exercises-page="closeExercisesPage" @add-exercise="addExercise"/>
+<Exercises type="Weights" v-else-if="selectWeightsExercises == true" @close-exercises-page="closeExercisesPage" @add-exercise="addExercise"/>
 </template>

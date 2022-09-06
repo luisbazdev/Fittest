@@ -1,0 +1,80 @@
+[
+    {
+        "category": "Pushing",
+        "description": "Compound pushing exercises which tipically work most of the upper body at the same time.",
+        "exercises": [
+            {
+                "name": "Regular Push Ups"
+            },
+            {
+                "name": "Declined Push Ups"
+            },
+            {
+                "name": "Inclined Push Ups"
+            },
+            {
+                "name": "Diamond Push Ups"
+            },
+            {
+                "name": "Archer Push Ups"
+            },
+            {
+                "name": "Clapping Push Ups"
+            },
+            {
+                "name": "Pike Push Ups"
+            },
+            {
+                "name": "Handstand Push Ups"
+            },
+            {
+                "name": "Parallel Bar Dips"
+            },
+            {
+                "name": "Straight Bar Dips"
+            }
+        ]
+    },
+    {
+        "category": "Pulling",
+        "description": "Essential pulling exercises including the good ol' pull-up to work the back, forearms and arms.",
+        "exercises": [
+            {
+                "name": "Pull Ups"
+            },
+            {
+                "name": "Archer Pull Ups"
+            },
+            {
+                "name": "Chin Ups"
+            },
+            {
+                "name": "Vertical Rows"
+            }
+        ]
+    },
+    {
+        "category": "Legs",
+        "description": "Calisthenics basic leg exercises to start working on quads, hamstrings and calves.",
+        "exercises": [
+            {
+                "name": "Regular Squats"
+            },
+            {
+                "name": "Pistol Squats"
+            },
+            {
+                "name": "Jumping Squats"
+            },
+            {
+                "name": "Crunches"
+            },
+            {
+                "name": "Pistol Squats"
+            },
+            {
+                "name": "Calf Raises"
+            }
+        ]
+    }
+]

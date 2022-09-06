@@ -1,0 +1,80 @@
+[
+    {
+        "category": "Compounds",
+        "description": "Work on multiple muscles at the same time and are required for a complete healthy physique.",
+        "exercises": [
+            {
+                "name": "Deadlift"
+            },
+            {
+                "name": "Overhead Press"
+            },
+            {
+                "name": "Bench Press"
+            }
+        ]
+    },
+    {
+        "category": "Forearms",
+        "description": "Train your forearms!",
+        "exercises": [
+            {
+                "name": "Supinated Curls"
+            }
+        ]
+    },
+    {
+        "category": "Biceps",
+        "description": "The most trained muscle in the gym.",
+        "exercises": [
+            {
+                "name": "Bicep Curls"
+            }
+        ]
+    },
+    {
+        "category": "Triceps",
+        "description": "",
+        "exercises": [
+            {
+                "name": "Tricep extensions"
+            }
+        ]
+    },
+    {
+        "category": "Shoulders",
+        "description": "",
+        "exercises": [
+            {
+                "name": "Overhead press"
+            }
+        ]
+    },
+    {
+        "category": "Back",
+        "description": "For a bigger back.",
+        "exercises": [
+            {
+                "name": "Lat Pulldowns"
+            }
+        ]
+    },
+    {
+        "category": "Chest",
+        "description": "For a bigger chest.",
+        "exercises": [
+            {
+                "name": "Bench Press"
+            }
+        ]
+    },
+    {
+        "category": "Lower Body",
+        "description": "Gold exercises for good looking glutes, legs and calves.",
+        "exercises": [
+            {
+                "name": "Squats"
+            }
+        ]
+    }
+]

@@ -5,8 +5,6 @@ import Schedule from './components/Schedule.vue';
 
 <template>
 <div class="w-full h-screen font-main">
-    
-    <!-- <Schedule/> -->
     <RouterView :key="$route.fullPath"/>
 </div>
 </template>
