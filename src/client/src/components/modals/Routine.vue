@@ -36,8 +36,7 @@ function addExercise(exercise: any){
 }
 
 function removeExercise(exercise: any){
-    //...
-    console.log(exercises)
+    exercises.splice(exercises.findIndex((e: any) => e == exercise), 1)
 }
 
 function createRoutine(){
@@ -98,11 +97,11 @@ const styles = ['Sets And Reps', 'Circuit', 'Every Minute On The Minute']
                     <p class="text-[#8a8a8a] clickable underline" @click="openWeightsExercisesPage">Weights Exercises</p> 
                 </div>
                 <div class="flex flex-col mt-4 gap-3" v-if="exercises.length > 0">
-                    <div class="flex items-center gap-1" v-for="exercise in exercises">
+                    <div class="flex items-center gap-1 group" v-for="exercise in exercises">
                         <input min="1" max="100" type="number" class="_input_number" v-model="exercise.repetitions"/>
                         x
                         <p>{{exercise.name}}</p>
-                        <!-- <font-awesome-icon icon="fa-solid fa-trash" class="ml-2 text-gray-800" @click="removeExercise(exercise)"/> -->
+                        <font-awesome-icon icon="fa-solid fa-trash" size="md" class="hidden ml-3 text-gray-700 group-hover:flex clickable" @click="removeExercise(exercise)"/>
                     </div>
                 </div>
             </div> 
