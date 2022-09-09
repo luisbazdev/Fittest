@@ -11,6 +11,7 @@ import com.example.demo.jwt.JwtTokenUtil;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/routine")
@@ -25,20 +26,20 @@ public class RoutineController {
         this.jwtTokenUtil = jwtTokenUtil;
     }
 
-    @GetMapping
-    public Page<Routine> getAll(
-        @RequestParam(name="type", required = false) String type,
-        @RequestParam(name="page", defaultValue = "0", required = true) int page,
-        @RequestParam(name="size", defaultValue = "20") int size){
+     @GetMapping()
+     public Page<Routine> getAll(
+         @RequestParam(name="type", required = false) String type,
+         @RequestParam(name="page", defaultValue = "0", required = true) int page,
+         @RequestParam(name="size", defaultValue = "20") int size){
 
-        Pageable paging = PageRequest.of(page, size);
+         Pageable paging = PageRequest.of(page, size);
 
-        if(type != null){
-            return routineRepository.findByTypeAndSharedIsTrue(type, paging);
-        }
+         if(type != null){
+             return routineRepository.findByTypeAndSharedIsTrue(type, paging);
+         }
 	        
-        return routineRepository.findBySharedIsTrue(paging);
-    }
+         return routineRepository.findBySharedIsTrue(paging);
+     }
 
     @GetMapping(value="/me")
     public Page<Routine> getAllByUserId(
@@ -59,8 +60,17 @@ public class RoutineController {
         return routineRepository.insert(routine);
     }
 
-    // @DeleteMapping
-    // public void deleteOne(@RequestBody String id){
-    //     routineRepository.deleteById(id);
-    // }
+    @PostMapping(value = "{routineId}")
+    public String deleteOne(@RequestHeader("Authorization") String AuthorizationHeader, @PathVariable String routineId){
+        String id = jwtTokenUtil.getUserIdFromToken(jwtTokenUtil.GetTokenFromAuthorizationHeader(AuthorizationHeader));
+        Optional<Routine> query = routineRepository.findById(routineId);
+        if(query.isPresent()){
+            if(query.get().getUserId() == Integer.valueOf(id)){
+                routineRepository.deleteById(routineId);
+                return "routine deleted";
+            }
+        }
+
+        return "You're not allowed to do this";
+    }
 }
