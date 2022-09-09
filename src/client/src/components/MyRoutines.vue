@@ -6,8 +6,11 @@ import Routine1 from './modals/Routine.vue'
 import Navbar from './Navbar.vue'
 import axios from 'axios';
 import { useRouter } from 'vue-router';
+import ConfirmDelete from './modals/ConfirmDelete.vue';
 
 const seeCreateRoutineModal = ref(false)
+const seeDeleteModal = ref(false)
+const deleteRoutine = ref(null)
 
 function seeCreateRoutineModalTrue(){
     seeCreateRoutineModal.value = true
@@ -15,6 +18,16 @@ function seeCreateRoutineModalTrue(){
 
 function seeCreateRoutineModalFalse(){
     seeCreateRoutineModal.value = false
+}
+
+function seeDeleteRoutineModalTrue(routine){
+    deleteRoutine.value = routine.r_id
+    seeDeleteModal.value = true
+}
+
+function seeDeleteRoutineModalFalse(){
+    deleteRoutine.value = null
+    seeDeleteModal.value = false
 }
 
 const router = useRouter()
@@ -67,6 +80,7 @@ function setPreview(_preview: any){
 <template>
 <Navbar/>
 <Routine1 v-if="seeCreateRoutineModal == true" @close-modal="seeCreateRoutineModalFalse"/>
+<ConfirmDelete :r_id="deleteRoutine" v-if="seeDeleteModal == true" @close-modal="seeDeleteRoutineModalFalse"/>
 <div class="flex flex-col items-center px-6 gap-4 pt-[80px]">
     <div class="grid grid-cols-[auto_1fr] w-full h-[570px] border border-gray-400 rounded-lg">
         <div class="w-full h-full flex flex-col gap-8 overflow-y-auto p-6">
@@ -95,7 +109,9 @@ function setPreview(_preview: any){
                         :r_type="routine.type"
                         :r_units="routine.units"
                         :r_shared="routine.shared"
-                        @set-preview="setPreview"/>
+                        @see-delete="seeDeleteRoutineModalTrue"
+                        @set-preview="setPreview"
+                        />
                     </div>
                 </div>
             </div>

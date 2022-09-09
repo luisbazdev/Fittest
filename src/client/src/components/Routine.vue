@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import type { Exercise } from '@/interfaces';
+import { useUserStore } from '@/stores/UserStore'
+const userStore = useUserStore()
+
 const routine = defineProps({
     r_id: String,
     r_userId: Number,
@@ -15,9 +18,14 @@ const routine = defineProps({
 
 const date = new Date(routine.r_createdAt)
 
-const emit = defineEmits(['setPreview'])
+const emit = defineEmits(['setPreview', 'seeDelete'])
+
 function setPreview(){
     emit('setPreview', routine)
+}
+
+function seeDelete(){
+    emit('seeDelete', routine)
 }
 </script>
 
@@ -25,7 +33,15 @@ function setPreview(){
 <div class="routine" @click="setPreview">
     <div class="flex h-full items-center content-center mb-4 relative">
         <p class="font-semibold text-2xl text-gray-800">{{r_type}}</p>
-        <font-awesome-icon class="absolute right-0 text-gray-700" icon="fa-solid fa-ellipsis-vertical" size="xl"/>
+        <div class="flex flex-col items-end absolute right-0 top-0 text-gray-700 group"  tabindex="1">
+            <font-awesome-icon icon="fa-solid fa-ellipsis" size="xl"/>
+            <div class="hidden group-focus:flex flex-col left-6 rounded p-2 relative bg-white shadow-xl">
+                <span v-if="routine.r_userId == userStore.$state.id">Edit</span>
+                <span v-if="routine.r_userId != userStore.$state.id">Save</span>
+                <span v-if="routine.r_userId == userStore.$state.id" @click="seeDelete">Remove</span>
+            </div>
+        </div>
+
     </div>
     <div class="flex items-center gap-1 font-semibold text-gray-800">
         <p>{{r_title}}</p>

@@ -14,11 +14,11 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 /* import specific icons */
-import { faEarthAmericas, faDumbbell, faEllipsisVertical, faTrash} from '@fortawesome/free-solid-svg-icons'
+import { faEarthAmericas, faDumbbell, faEllipsis, faTrash} from '@fortawesome/free-solid-svg-icons'
 import { faBookmark } from '@fortawesome/free-regular-svg-icons'
 
 /* add icons to the library */
-library.add(faEarthAmericas, faDumbbell, faBookmark, faEllipsisVertical, faTrash)
+library.add(faEarthAmericas, faDumbbell, faBookmark, faEllipsis, faTrash)
 
 const pinia = createPinia()
 

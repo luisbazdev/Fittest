@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router';
-import Schedule from './components/Schedule.vue';
 </script>
 
 <template>
