@@ -87,6 +87,18 @@ public class AuthController {
         }
     }
 
+    @PostMapping("/logout")
+    public String logOut(HttpServletResponse response){
+        Cookie cookie = new Cookie("id", null);
+	    cookie.setHttpOnly(true);
+	    cookie.setMaxAge(0);
+	    cookie.setDomain("localhost");
+	    cookie.setPath("/");
+
+	    response.addCookie(cookie);
+	    return "Logged out";
+    }
+
     @PostMapping("/info")
     public Claims getUserInfo(@RequestHeader("Authorization") String Authorization){
         String token = Authorization.split(" ", 0)[1];
