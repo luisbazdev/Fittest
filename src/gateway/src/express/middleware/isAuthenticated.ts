@@ -12,8 +12,8 @@ export async function isAuthenticatedMiddleware(req: Request, res: Response, nex
             token: jwt   
            }, {
                withCredentials: true
-           }).then((valid) => {
-               if(valid.data == false){
+           }).then((response) => {
+               if(response.data.valid == false){
                     return res.status(403).json({message: "Not Authorized"});
                }
            }).catch(() => {

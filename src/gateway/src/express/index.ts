@@ -19,7 +19,7 @@ function resolver(req: Request){
     return `/api${req.originalUrl}`
 }
 
-app.use("/auth/info", isAuthenticatedMiddleware, proxy("http://localhost:1234", {
+app.use("/auth/status", isAuthenticatedMiddleware, proxy("http://localhost:1234", {
     proxyReqPathResolver: resolver
 }));
 app.use("/auth", proxy('http://localhost:1234', {
