@@ -7,7 +7,7 @@ import com.example.demo.user.UserRepository;
 
 import io.jsonwebtoken.Claims;
 
-import java.util.Optional;
+import java.util.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -36,7 +36,9 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public Claims logIn(@RequestBody User userBody, HttpServletResponse response){
+    public Map<String, Object> logIn(@RequestBody User userBody, HttpServletResponse response){
+        Map<String, Object> data = new HashMap<String, Object>();
+
         String email = userBody.getEmail();
 
         Optional<User> userQuery = userRepository.findByEmail(email);
@@ -47,12 +49,16 @@ public class AuthController {
             Boolean matches = passwordEncoder.matches(userBody.getPassword(), user.getPassword());
 
             if(matches){
+                data.put("message", "Succesfully logged in");
+                data.put("authenticated", true);
+
                 String userId = String.valueOf(user.getId());
                 String userName = user.getName();
                 String userEmail = user.getEmail();
-    
+		    
                 String jwt = jwtTokenUtil.GenerateToken(userId, userName, userEmail);
-    
+                data.put("session", jwtTokenUtil.getAllClaimsFromToken(jwt));
+                
                 Cookie cookie = new Cookie("id", jwt);
                 cookie.setHttpOnly(true);
                 cookie.setMaxAge(1000000);
@@ -61,34 +67,40 @@ public class AuthController {
 
                 response.addCookie(cookie);
 
-                return jwtTokenUtil.getAllClaimsFromToken(jwt);
             }
             else{
-                return null;
+                data.put("message", "Invalid credentials");
+                data.put("authenticated", false);
+                data.put("session", null);
             }
         }
-        else{
-            return null;
-        }
+
+        return data;
     }
 
     @PostMapping("/signup")
-    public String signUp(@RequestBody User userBody){
+    public Map<String, Object> signUp(@RequestBody User userBody){
+        Map<String, Object> data = new HashMap<String, Object>();
+
         Optional<User> query = userRepository.findByEmail(userBody.getEmail());
 
         if(query.isPresent()){
-            return "Email already taken";
+            data.put("message", "Email is already taken");
+            data.put("user", null);
         }
         else{
+            data.put("message", "Successfully signed up");
+            data.put("user", userBody);
             userBody.setPassword(passwordEncoder.encode(userBody.getPassword()));
             User user = userRepository.save(userBody);
             rabbitTemplate.convertAndSend("fittest", "signup.#asd", user.getId());
-            return "User created";
         }
+
+        return data;
     }
 
     @PostMapping("/logout")
-    public String logOut(HttpServletResponse response){
+    public Map<String, Object> logOut(HttpServletResponse response){
         Cookie cookie = new Cookie("id", null);
 	    cookie.setHttpOnly(true);
 	    cookie.setMaxAge(0);
@@ -96,17 +108,41 @@ public class AuthController {
 	    cookie.setPath("/");
 
 	    response.addCookie(cookie);
-	    return "Logged out";
+
+        Map<String, Object> data = new HashMap<String, Object>();
+
+        data.put("message", "Succesfully logged out");
+        data.put("authenticated", false);
+        data.put("session", null);
+        
+	    return data;
     }
 
-    @PostMapping("/info")
-    public Claims getUserInfo(@RequestHeader("Authorization") String Authorization){
+    @PostMapping("/status")
+    public Map<String, Object> getUserInfo(@RequestHeader("Authorization") String Authorization){
+        Map<String, Object> data = new HashMap<String, Object>();
+
         String token = Authorization.split(" ", 0)[1];
-        return jwtTokenUtil.getAllClaimsFromToken(token);
+
+        if(jwtTokenUtil.isTokenValid(token)){
+            data.put("authenticated", true);
+            data.put("session", jwtTokenUtil.getAllClaimsFromToken(token));
+        }
+        else{
+            data.put("authenticated", false);
+            data.put("session", null);
+        }
+
+        return data;
     }
 
     @PostMapping("/verify")
-    public Boolean authenticate(@RequestBody JwtToken token){
-        return jwtTokenUtil.isTokenValid(token.getToken());
+    public Map<String, Object> authenticate(@RequestBody JwtToken token){
+        Map<String, Object> data = new HashMap<String, Object>();
+
+        data.put("token", token);
+        data.put("valid", jwtTokenUtil.isTokenValid(token.getToken()));
+
+        return data;
     }
 }
