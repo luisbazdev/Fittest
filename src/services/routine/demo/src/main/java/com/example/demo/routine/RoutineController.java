@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.jwt.JwtTokenUtil;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/routine")
@@ -54,23 +52,44 @@ public class RoutineController {
     }
 
     @PostMapping
-    public Routine insertOne(@RequestHeader("Authorization") String AuthorizationHeader, @RequestBody Routine routine){
+    public Map<String, Object> insertOne(@RequestHeader("Authorization") String AuthorizationHeader, @RequestBody Routine userRoutine){
+        Map<String, Object> data = new HashMap<String, Object>();
+
         String id = jwtTokenUtil.getUserIdFromToken(jwtTokenUtil.GetTokenFromAuthorizationHeader(AuthorizationHeader));
-        routine.setUserId(Integer.valueOf(id));
-        return routineRepository.insert(routine);
+        userRoutine.setUserId(Integer.valueOf(id));
+        Routine routine = routineRepository.insert(userRoutine);
+
+        data.put("success", true);
+        data.put("message", "Routine was created successfully");
+        data.put("routine", routine);
+
+	return data;
     }
 
     @PostMapping(value = "{routineId}")
-    public String deleteOne(@RequestHeader("Authorization") String AuthorizationHeader, @PathVariable String routineId){
+    public Map<String, Object> deleteOne(@RequestHeader("Authorization") String AuthorizationHeader, @PathVariable String routineId){
+        Map<String, Object> data = new HashMap<String, Object>();
+
         String id = jwtTokenUtil.getUserIdFromToken(jwtTokenUtil.GetTokenFromAuthorizationHeader(AuthorizationHeader));
         Optional<Routine> query = routineRepository.findById(routineId);
+
         if(query.isPresent()){
             if(query.get().getUserId() == Integer.valueOf(id)){
                 routineRepository.deleteById(routineId);
-                return "routine deleted";
+                data.put("success", true);
+                data.put("message", "Routine created successfully");
+                data.put("routine", query.get());
+            }
+            else{
+                data.put("success", false);
+                data.put("message", "You're not allowed to do this");
             }
         }
+        else{
+            data.put("success", false);
+            data.put("message", "Routine doesn't exist");
+        }
 
-        return "You're not allowed to do this";
+        return data;
     }
 }
